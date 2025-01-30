@@ -1,14 +1,103 @@
-<script>
-    import Rain from "$lib/Rain.svelte";
+<script lang="ts">
+    import Rain from "$lib/rain/Rain.svelte";
+    import type { RainConfig } from "$lib/rain/simulator";
+
+    const config: RainConfig = {
+        dropWidth: 2,
+        minVelocity: 10,
+        minSize: 20,
+        epilepsia: false,
+    };
+    let menu = false;
 </script>
 
 <main>
-    <Rain />
+    <div class="options">
+        {#if menu}
+            <button class="no-button close" onclick={() => (menu = false)}>
+                Close
+            </button>
+
+            <label>
+                Width ({config.dropWidth})
+                <input
+                    type="range"
+                    min="1"
+                    max="20"
+                    bind:value={config.dropWidth}
+                />
+            </label>
+
+            <label>
+                Length ({config.minSize})
+                <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    bind:value={config.minSize}
+                />
+            </label>
+
+            <label>
+                Velocity ({config.minVelocity})
+                <input
+                    type="range"
+                    min="1"
+                    max="40"
+                    bind:value={config.minVelocity}
+                />
+            </label>
+
+            <label>
+                Epilepsia?
+                <input type="checkbox" bind:checked={config.epilepsia} />
+            </label>
+        {:else}
+            <button class="no-button" onclick={() => (menu = true)}>
+                OPTIONS
+            </button>
+        {/if}
+    </div>
+
+    {#key config}
+        <Rain {...config} />
+    {/key}
 </main>
 
 <style>
     :global(body) {
+        background-color: black;
+        color: white;
         margin: 0;
-        background-color: #1a1a1a;
+    }
+
+    main {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .no-button {
+        background: unset;
+        border: unset;
+        color: inherit;
+    }
+
+    .options {
+        border: 2px solid white;
+        padding: 1rem;
+        max-width: 10rem;
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .close {
+            justify-content: flex-end;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+        }
     }
 </style>
