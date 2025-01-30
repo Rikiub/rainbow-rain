@@ -2,13 +2,13 @@
     import Rain from "$lib/rain/Rain.svelte";
     import type { RainConfig } from "$lib/rain/simulator";
 
-    const config: RainConfig = {
+    const config: RainConfig = $state({
         dropWidth: 2,
         minVelocity: 10,
         minSize: 20,
         epilepsia: false,
-    };
-    let menu = false;
+    });
+    let menu = $state(false);
 </script>
 
 <main>
@@ -59,7 +59,7 @@
         {/if}
     </div>
 
-    {#key config}
+    {#key JSON.stringify(config)}
         <Rain {...config} />
     {/key}
 </main>
