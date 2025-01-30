@@ -49,7 +49,7 @@
             </label>
 
             <label>
-                Epilepsia?
+                Epilepsy?
                 <input type="checkbox" bind:checked={config.epilepsia} />
             </label>
         {:else}
